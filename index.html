@@ -755,7 +755,7 @@
         <span class="chevron">›</span>
       </button>
 
-      <button class="card yukle" id="install-card" onclick="installPWA()" style="display:none;">
+      <button class="card yukle" id="install-card" onclick="installPWA()">
         <div class="icon-badge">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4 19h16"/></svg>
         </div>
@@ -1445,23 +1445,32 @@ const installBtn = document.getElementById('install-card');
 
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
-  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-  if(isStandalone) return;
   deferredInstallPrompt = e;
-  if(installBtn) installBtn.style.display = 'flex';
 });
 
 function installPWA(){
-  if(!deferredInstallPrompt) return;
-  deferredInstallPrompt.prompt();
-  deferredInstallPrompt.userChoice.finally(() => {
-    deferredInstallPrompt = null;
-    if(installBtn) installBtn.style.display = 'none';
-  });
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+  if(isStandalone){
+    alert('MuGöl Gülmece zaten ana ekranına yüklü görünüyor! 🎉');
+    return;
+  }
+  if(deferredInstallPrompt){
+    deferredInstallPrompt.prompt();
+    deferredInstallPrompt.userChoice.finally(() => {
+      deferredInstallPrompt = null;
+    });
+    return;
+  }
+  const ua = navigator.userAgent || '';
+  const isIOS = /iphone|ipad|ipod/i.test(ua);
+  if(isIOS){
+    alert('Uygulamayı yüklemek için: Paylaş ikonuna dokun, ardından "Ana Ekrana Ekle" seçeneğini seç.');
+  } else {
+    alert('Uygulamayı yüklemek için tarayıcı menüsünden (⋮) "Uygulamayı yükle" veya "Ana ekrana ekle" seçeneğini kullanabilirsin.');
+  }
 }
 
 window.addEventListener('appinstalled', () => {
-  if(installBtn) installBtn.style.display = 'none';
   deferredInstallPrompt = null;
 });
 
