@@ -2,7 +2,7 @@
   "name": "MuGöl Gülmece",
   "short_name": "MuGöl Gülmece",
   "description": "Her gün yeni bir bilmece, yeni bir gülümseme.",
-  "start_url": "./soguk-espriler-navy-2-1.html",
+  "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
