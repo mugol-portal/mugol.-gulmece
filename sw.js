@@ -1,6 +1,6 @@
 const CACHE_NAME = 'mugol-gulmece-v1';
 const ASSETS = [
-  './soguk-espriler-navy-2-1.html',
+  './index.html',
   './espriler.js',
   './bilmeceler.js',
   './manifest.json',
